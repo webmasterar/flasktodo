@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+    <title>{% block title %}Todo{% endblock %}</title>
+</head>
+<body class="antialiased font-sans max-w-screen-xl mx-auto">
+
+<div class="container mx-auto px-4 py-4 text-center">
+
+    {% if current_user.is_authenticated %}
+        <div class="text-right px-3 text-xs">
+            <a href="{{ url_for('logout') }}" class="hover:font-maroon-400">
+                Logout
+            </a>
+        </div>
+    {% endif %}
+
+    <div>
+        <h1 class="py-4 bg-gradient-to-r from-green-300 via-blue-500 to-purple-600 bg-clip-text text-3xl font-extrabold text-transparent sm:text-5xl">
+            My Todos
+        </h1>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        <div class="pb-4 mx-auto max-w-md" id="alert_box">
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    {% if category == 'error' %}
+                        <li class="text-red-600 rounded border-s-4 border-red-500 bg-red-50 p-4">
+                            {{ message }}
+                    {% elif category == 'success' %}
+                        <li class="text-green-600 rounded border-s-4 border-green-500 bg-green-50 p-4">
+                            {{ message }}
+                    {% else %}
+                        <li class="text-gray-600 rounded border-s-4 border-gray-500 bg-gray-50 p-4">
+                            {{ message }}
+                    {% endif %}
+                            <button class="text-gray-500 transition hover:text-gray-600 float-right" aria-label="Close"
+                                    onclick="document.getElementById('alert_box').style.display='none'">
+                                <span class="sr-only">Dismiss popup</span>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-6 w-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        </div>
+    {% endwith %}
+
+    <div class="pb-4">
+        {% block body %}{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

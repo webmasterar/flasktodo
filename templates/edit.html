@@ -1,0 +1,29 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Edit Todo Item
+{% endblock %}
+
+{% block body %}
+
+    <h2 class="text-2xl pb-4">Edit</h2>
+
+    <div class="max-w-md mx-auto">
+        <form method="POST" action="{{ url_for('edit_todo', todo_id=todo.id) }}">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="id" value="{{ todo.id }}" />
+            <label for="content" class="text-lg">
+                Todo:
+            </label>
+            <input type="text" name="content" id="content" value="{{ todo.content }}"  class="w-64 rounded-lg border-2 border-slate-600 p-3 pe-12 text-sm shadow-sm" />
+            <button type="submit" class="inline-block rounded-lg bg-blue-500 px-5 py-3 text-sm font-medium text-white hover:bg-blue-600">
+                Update
+            </button>
+        </form>
+    </div>
+
+    <div class="mx-auto py-4 text-xs">
+        <a href="{{ url_for('index') }}" class="hover:underline">Back</a>
+    </div>
+
+{% endblock %}
